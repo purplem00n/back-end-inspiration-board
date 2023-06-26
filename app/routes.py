@@ -90,3 +90,12 @@ def add_card():
     db.session.commit()
 
     return {"card": new_card.to_dict()}, 201
+
+@cards_bp.route("/<id>", methods=["DELETE"])
+def delete_card(id):
+    card = validate_item(Card, id)
+
+    db.session.delete(card)
+    db.session.commit()
+
+    return make_response({"Details": f'Card {id} "{card.message}" successfully deleted'})
