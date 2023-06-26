@@ -21,6 +21,8 @@ def validate_item(model, item_id):
 
     return item
 
+
+# BOARDS ROUTES
 @boards_bp.route("", methods=["GET"])
 def get_all_boards():
 
@@ -57,6 +59,8 @@ def add_board():
 
     return {"board": new_board.to_dict()}, 201
 
+
+# CARDS ROUTES
 @cards_bp.route("", methods=["GET"])
 def get_all_cards():
 
@@ -68,3 +72,21 @@ def get_all_cards():
         card_response.append(card.to_dict())
 
     return jsonify(card_response), 200
+
+
+@cards_bp.route("", methods=["POST"])
+def add_card(): 
+    request_body = request.get_json()
+
+    try: 
+        new_card = Card(
+            message = request_body["message"]
+        )
+    
+    except KeyError: 
+        return make_response({"Message": "Invalid Data"}), 400
+    
+    db.session.add(new_card)
+    db.session.commit()
+
+    return {"card": new_card.to_dict()}, 201
