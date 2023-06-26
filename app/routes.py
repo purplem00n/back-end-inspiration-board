@@ -35,11 +35,13 @@ def get_all_boards():
 
     return jsonify(board_response), 200
 
+
 @boards_bp.route("/<id>", methods=["GET"])
 def get_one_board(id):
     board = validate_item(Board, id)
 
     return make_response({"board": board.to_dict()})
+
 
 @boards_bp.route("", methods=["POST"])
 def add_board(): 
@@ -91,6 +93,7 @@ def add_card():
 
     return {"card": new_card.to_dict()}, 201
 
+
 @cards_bp.route("/<id>", methods=["DELETE"])
 def delete_card(id):
     card = validate_item(Card, id)
@@ -99,3 +102,14 @@ def delete_card(id):
     db.session.commit()
 
     return make_response({"Details": f'Card {id} "{card.message}" successfully deleted'})
+
+
+@cards_bp.route("/<id>", methods=["PATCH"])
+def mark_incomplete(task_id):
+    card = validate_item(Card, id) 
+
+    card.likes += 1
+
+    db.session.commit()
+
+    return make_response({"card": card.to_dict()})
