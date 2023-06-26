@@ -39,3 +39,20 @@ def get_one_board(id):
 
     return make_response({"card": card.to_dict()})
 
+@boards_bp.route("", methods=["POST"])
+def add_board(): 
+    request_body = request.get_json()
+
+    try: 
+        new_board = Board(
+            title = request_body["title"],
+            owner = request_body["owner"]
+        )
+    
+    except KeyError: 
+        return make_response({"Message": "Invalid Data"}), 400
+    
+    db.session.add(new_board)
+    db.session.commit()
+
+    return {"board": new_board.to_dict()}, 201
