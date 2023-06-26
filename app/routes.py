@@ -24,20 +24,20 @@ def validate_item(model, item_id):
 @boards_bp.route("", methods=["GET"])
 def get_all_boards():
 
-    cards = Card.query.all()
+    boards = Board.query.all()
 
-    card_response = []
+    board_response = []
 
-    for card in cards:
-        card_response.append(card.to_dict())
+    for board in boards:
+        board_response.append(board.to_dict())
 
-    return jsonify(card_response), 200
+    return jsonify(board_response), 200
 
 @boards_bp.route("/<id>", methods=["GET"])
 def get_one_board(id):
-    card = validate_item(Board, id)
+    board = validate_item(Board, id)
 
-    return make_response({"card": card.to_dict()})
+    return make_response({"board": board.to_dict()})
 
 @boards_bp.route("", methods=["POST"])
 def add_board(): 
@@ -56,3 +56,15 @@ def add_board():
     db.session.commit()
 
     return {"board": new_board.to_dict()}, 201
+
+@cards_bp.route("", methods=["GET"])
+def get_all_cards():
+
+    cards = Card.query.all()
+
+    card_response = []
+
+    for card in cards:
+        card_response.append(card.to_dict())
+
+    return jsonify(card_response), 200
