@@ -103,7 +103,7 @@ def delete_card(card_id):
 
 
 @cards_bp.route("/<id>", methods=["PATCH"])
-def mark_incomplete(card_id):
+def change_like_count(card_id):
     card = validate_item(Card, card_id) 
 
     request_body = request.get_json()
