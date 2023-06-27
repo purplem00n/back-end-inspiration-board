@@ -71,7 +71,7 @@ def add_card(board_id):
     try: 
         new_card = Card(
             message = request_body["message"],
-            board_id = board.id,
+            board_id = board_id,
         )
     
     except KeyError: 
