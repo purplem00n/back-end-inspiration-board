@@ -37,8 +37,8 @@ def get_all_boards():
 
 
 @boards_bp.route("/<id>", methods=["GET"])
-def get_one_board(id):
-    board = validate_item(Board, id)
+def get_one_board(board_id):
+    board = validate_item(Board, board_id)
 
     return make_response({"board": board.to_dict()})
 
@@ -93,8 +93,8 @@ def get_all_cards(board_id):
 # CARDS ROUTES
 
 @cards_bp.route("/<id>", methods=["DELETE"])
-def delete_card(id):
-    card = validate_item(Card, id)
+def delete_card(card_id):
+    card = validate_item(Card, card_id)
 
     db.session.delete(card)
     db.session.commit()
@@ -103,12 +103,12 @@ def delete_card(id):
 
 
 @cards_bp.route("/<id>", methods=["PATCH"])
-def mark_incomplete(id):
-    card = validate_item(Card, id) 
+def mark_incomplete(card_id):
+    card = validate_item(Card, card_id) 
 
     request_body = request.get_json()
 
-    card.likes = request_body["likes"]
+    card.likes_count = request_body["likes"]
 
     db.session.commit()
 
