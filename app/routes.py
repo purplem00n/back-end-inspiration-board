@@ -108,7 +108,9 @@ def delete_card(id):
 def mark_incomplete(task_id):
     card = validate_item(Card, id) 
 
-    card.likes += 1
+    request_body = request.get_json()
+
+    card.likes = request_body["likes"]
 
     db.session.commit()
 
