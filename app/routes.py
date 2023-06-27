@@ -62,27 +62,16 @@ def add_board():
     return {"board": new_board.to_dict()}, 201
 
 
-# CARDS ROUTES
-@cards_bp.route("", methods=["GET"])
-def get_all_cards():
+@boards_bp.route("/<board_id>", methods=["POST"])
+def add_card(board_id): 
+    board = validate_item(Board, board_id)
 
-    cards = Card.query.all()
-
-    card_response = []
-
-    for card in cards:
-        card_response.append(card.to_dict())
-
-    return jsonify(card_response), 200
-
-
-@cards_bp.route("", methods=["POST"])
-def add_card(): 
     request_body = request.get_json()
 
     try: 
         new_card = Card(
-            message = request_body["message"]
+            message = request_body["message"],
+            board_id = board.id,
         )
     
     except KeyError: 
@@ -93,6 +82,15 @@ def add_card():
 
     return {"card": new_card.to_dict()}, 201
 
+
+@boards_bp.route("/<board_id>/cards", methods=["GET"])
+def get_all_cards(board_id):
+    board = validate_item(Board, board_id)
+
+    return board.to_dict(), 200
+
+
+# CARDS ROUTES
 
 @cards_bp.route("/<id>", methods=["DELETE"])
 def delete_card(id):
