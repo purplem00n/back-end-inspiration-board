@@ -36,7 +36,7 @@ def get_all_boards():
     return jsonify(board_response), 200
 
 
-@boards_bp.route("/<id>", methods=["GET"])
+@boards_bp.route("/<board_id>", methods=["GET"])
 def get_one_board(board_id):
     board = validate_item(Board, board_id)
 
@@ -92,7 +92,7 @@ def get_all_cards(board_id):
 
 # CARDS ROUTES
 
-@cards_bp.route("/<id>", methods=["DELETE"])
+@cards_bp.route("/<card_id>", methods=["DELETE"])
 def delete_card(card_id):
     card = validate_item(Card, card_id)
 
@@ -102,7 +102,7 @@ def delete_card(card_id):
     return make_response({"Details": f'Card {id} "{card.message}" successfully deleted'})
 
 
-@cards_bp.route("/<id>", methods=["PATCH"])
+@cards_bp.route("/<card_id>", methods=["PATCH"])
 def change_like_count(card_id):
     card = validate_item(Card, card_id) 
 
