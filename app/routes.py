@@ -103,7 +103,7 @@ def delete_card(id):
 
 
 @cards_bp.route("/<id>", methods=["PATCH"])
-def mark_incomplete(task_id):
+def mark_incomplete(id):
     card = validate_item(Card, id) 
 
     request_body = request.get_json()
