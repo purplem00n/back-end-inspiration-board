@@ -89,6 +89,15 @@ def get_all_cards(board_id):
 
     return board.to_dict(), 200
 
+@boards_bp.route("/<board_id>", methods=["DELETE"])
+def delete_one_board(board_id):
+    board = validate_item(Board, board_id)
+
+    db.session.delete(board)
+    db.session.commit()
+
+    return make_response({"Message": f"Board {board_id} successfully deleted"})
+
 
 # CARDS ROUTES
 
